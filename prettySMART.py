@@ -77,6 +77,10 @@ def NormalizeFont(f, n):
                     
                 tspan.attrib["font-size"] = "24.000"
 
+            if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":
+                if "font-weight" in tspan.attrib:
+                    del tspan.attrib["font-weight"]
+
     t.write(f)
 
 def UpdatePathWidth(f):
