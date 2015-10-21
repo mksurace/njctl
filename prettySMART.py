@@ -95,10 +95,23 @@ def RepresentsInt(s):
         return False
 
 def ShouldIgnore(tspan, pullTabIds, parentMap):
-    if tspan.text and tspan.text.strip() == "":
+    if not tspan.text:
+        return True
+    if tspan.text and (tspan.text.strip() == "" or len(tspan.text.strip()) == 0):
         return True
     if tspan.text and RepresentsInt(tspan.text): # Ignore number lines.
         return True
+    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Lucida Sans Unicode":
+        if tspan.text == u'\u03b8': # Division symbol
+            return True
+        elif tspan.text == u'\xc3':
+            return True
+        else:
+            try:
+                if ord(tspan.text.strip()) == 247:
+                    return True
+            except:
+                pass
     if "supersuboriginalfont" in tspan.attrib:
         return True
     if tspan.text == "Students type their answers here":
