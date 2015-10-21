@@ -24,7 +24,6 @@ AllowedTSpans = [
     ["#00005E", "Arial", "48.000", "bold"],
     # SR
     ["#000000", "Arial", "28.000"],
-    ["#000000", "Arial", "28.000", "bold"],
     ]
 Mappings = [
     ["Times New Roman", "Arial"],
@@ -65,6 +64,8 @@ def NormalizeFont(f, n):
                 tspan.attrib["font-family"] = "Arial"
                 
             if len(pullTabIds) > 0 and (tspan.attrib["font-size"] == "24.000" or tspan.attrib["font-size"] == "23.000" or tspan.attrib["font-size"] == "22.000") and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
+                if "font-weight" in tspan.attrib:
+                    del tspan.attrib["font-weight"]
                 tspan.attrib["font-size"] = "28.000"
 
             if tspan.attrib["font-size"] == "48.000":
