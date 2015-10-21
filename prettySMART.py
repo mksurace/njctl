@@ -24,6 +24,7 @@ AllowedTSpans = [
     ["#00005E", "Arial", "48.000", "bold"],
     # SR
     ["#000000", "Arial", "28.000"],
+    ["#000000", "Arial", "20.000"],
     ]
 Mappings = [
     ["Times New Roman", "Arial"],
@@ -66,7 +67,7 @@ def NormalizeFont(f, n):
             if tspan.attrib["font-size"] in ["24.000", "23.000", "22.000", "26.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-size"] = "28.000"
 
-            if tspan.attrib["font-size"] == "28.000" and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000":
+            if tspan.attrib["font-size"] in ["20.000", "28.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000":
                 if "font-weight" in tspan.attrib:
                     del tspan.attrib["font-weight"]
 
