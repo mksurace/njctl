@@ -85,8 +85,8 @@ def FixDuplicateIDs(f):
             if "annotation" not in id:
                 print "Failed to parse '%s', aborting..." % f
                 break
-            if loops > 1000:
-                print "Over 1000 loops.  Unable to auto-correct '%s', skipping.." % f
+            if loops > 3000:
+                print "Over 3000 loops.  Unable to auto-correct '%s', skipping.." % f
                 break
 
             ReplaceStringsInFile(f, [[id, "annotation." + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(16))]], 1)
