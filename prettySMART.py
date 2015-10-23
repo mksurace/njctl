@@ -186,22 +186,27 @@ def ProcessNotebook(file):
     with open("../converted/%s.notes.txt" % workingFolder, 'w') as out:    
         for c in e.find("./*" + nodePrefix + "resource[@identifier='group0_pages']"):
             p = c.attrib['href']
-
-            SMARTLib.FixDuplicateIDs(p)
-            UpdateText(p)
-            NormalizeFont(p, count)
-            UpdatePathWidth(p)
-            res = ConsistencyCheck(p)
-            if res["nTotalTSpan"] != 0:
-                pct = 100*float(res["nTotalTSpan"] - res["nBadTSpan"]) / res["nTotalTSpan"]
-                if pct != 100:
-                    out.write("Slide #%d [%0.2f%%]\n" % (count, pct))
-            for r in res["Output"]:
-                s = "Slide #%d (%s): %s" % (count, p, r)
-                out.write("%s\n" % s)
-            for r in res["Arcs"]:
-                arcs.append("Slide #%d (%s): %s" % (count, p, r))
             
+            SMARTLib.FixDuplicateXML(p)
+            fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
+            UpdateText(p)
+
+            if fixedDupes:            
+                NormalizeFont(p, count)
+                UpdatePathWidth(p)
+                res = ConsistencyCheck(p)
+                if res["nTotalTSpan"] != 0:
+                    pct = 100*float(res["nTotalTSpan"] - res["nBadTSpan"]) / res["nTotalTSpan"]
+                    if pct != 100:
+                        out.write("Slide #%d [%0.2f%%]\n" % (count, pct))
+                for r in res["Output"]:
+                    s = "Slide #%d (%s): %s" % (count, p, r)
+                    out.write("%s\n" % s)
+                for r in res["Arcs"]:
+                    arcs.append("Slide #%d (%s): %s" % (count, p, r))
+            else:
+                out.write("Slide #%d (%s): Unable to process.. Please manually verify.\n" % (count, p))
+                
             count = count + 1
 
         if len(arcs) > 0:
