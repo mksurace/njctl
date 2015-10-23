@@ -121,6 +121,9 @@ def ShouldIgnore(tspan, pullTabIds, parentMap):
                     return True
             except:
                 pass
+    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial Unicode MS":
+        if len(tspan.text.strip()) == 1:
+            return True
     if "supersuboriginalfont" in tspan.attrib:
         return True
     if tspan.text == "Students type their answers here":
