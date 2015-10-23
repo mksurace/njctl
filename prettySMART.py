@@ -108,7 +108,7 @@ def ShouldIgnore(tspan, pullTabIds, parentMap):
         return True
     if tspan.text and (tspan.text.strip() == "" or len(tspan.text.strip()) == 0):
         return True
-    if tspan.text and RepresentsInt(tspan.text): # Ignore number lines.
+    if tspan.text and RepresentsInt(tspan.text) and "font-size" in tspan.attrib and tspan.attrib["font-size"] == "24.000": # Ignore number lines.
         return True
     if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Lucida Sans Unicode":
         if tspan.text == u'\u03b8': # Division symbol
