@@ -31,6 +31,7 @@ Mappings = [
     ["#0000FF", "#00005E"],
     ["#0000ff", "#00005E"],
     ["#00008B", "#00005E"],
+    ["#333399", "#00005E"]
     ]
 
    
@@ -48,15 +49,15 @@ def NormalizeFont(f, n):
         
         if "font-size" in tspan.attrib:
             size = float(tspan.attrib["font-size"])
-            if not size.is_integer():
-                if abs(size - 24) <= 2:
-                    tspan.attrib["font-size"] = "24.000"
-                elif abs(size - 28) <= 2:
-                    tspan.attrib["font-size"] = "28.000"
-                elif abs(size - 36) <= 2:
-                    tspan.attrib["font-size"] = "36.000"
-                elif abs(size - 48) <= 2:
-                    tspan.attrib["font-size"] = "48.000"
+        
+            if abs(size - 24) <= 2:
+                tspan.attrib["font-size"] = "24.000"
+            elif abs(size - 28) <= 2:
+                tspan.attrib["font-size"] = "28.000"
+            elif abs(size - 36) <= 2:
+                tspan.attrib["font-size"] = "36.000"
+            elif abs(size - 48) <= 2:
+                tspan.attrib["font-size"] = "48.000"
             else:
                 tspan.attrib["font-size"] = tspan.attrib["font-size"].split(".")[0] + ".000"
 
