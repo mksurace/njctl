@@ -68,7 +68,7 @@ def NormalizeFont(f, n):
             if "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Times New Roman":
                 tspan.attrib["font-family"] = "Arial"
                 
-            if tspan.attrib["font-size"] in ["26.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
+            if tspan.attrib["font-size"] in ["26.000", "36.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-size"] = "28.000"
 
             if tspan.attrib["font-size"] in ["20.000", "28.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000":
