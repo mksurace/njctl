@@ -91,6 +91,14 @@ def UpdatePathWidth(f):
             
     t.write(f)
 
+def DeleteColorEncodings(f):
+    t = etree.parse(f)
+    # Delete any of those color coded things at the top
+    for i in t.findall(".//image"):
+        if "height" in i.attrib and i.attrib["height"] == "5.00" and float(i.attrib["y"]) < 20:
+            i.getparent().remove(i)
+    t.write(f)
+
 def RepresentsInt(s):
     try: 
         int(s)
@@ -193,6 +201,7 @@ def ProcessNotebook(file):
             if fixedDupes:            
                 NormalizeFont(p, count)
                 UpdatePathWidth(p)
+                DeleteColorEncodings(p)
                 res = ConsistencyCheck(p)
                 if res["nTotalTSpan"] != 0:
                     pct = 100*float(res["nTotalTSpan"] - res["nBadTSpan"]) / res["nTotalTSpan"]
