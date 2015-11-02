@@ -27,7 +27,7 @@ def FindPullTabs(t, parentMap, f):
     ids = []
     
     for tspan in t.findall(".//tspan"):
-        if tspan.text and (tspan.text.find("[This object") != -1 or tspan.text == "Teacher Notes"):
+        if tspan.text and (tspan.text.find("[This object") != -1 or tspan.text == "Teacher Notes" or tspan.text == "Teacher"):
             parent = parentMap[tspan] # tspan
             parent = parentMap[parent] # tspan
             parent = parentMap[parent] # text
