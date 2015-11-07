@@ -46,6 +46,10 @@ def NormalizeFont(f, n):
     parentMap = {c:p for p in t.iter() for c in p}
     pullTabIds = SMARTLib.FindPullTabs(t, parentMap, f)
 
+    hasMultipleChoice = False
+    for votemetadata in t.findall(".//votemetadata"):
+        hasMultipleChoice = True
+
     for tspan in t.findall(".//tspan"):
         if ShouldIgnore(tspan, pullTabIds, parentMap):
             continue
@@ -70,6 +74,9 @@ def NormalizeFont(f, n):
                 
             if tspan.attrib["font-size"] in ["26.000", "36.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-size"] = "28.000"
+
+            if hasMultipleChoice and tspan.attrib["font-size"] in ["24.000", "26.000", "36.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
+                tspan.attrib["font-size"] = "28.000"            
 
             if tspan.attrib["font-size"] in ["20.000", "28.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000":
                 if "font-weight" in tspan.attrib:
