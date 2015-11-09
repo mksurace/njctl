@@ -29,6 +29,23 @@ nodePrefix = "{http://www.imsglobal.org/xsd/imscp_v1p1}"
 # subprocess.call("""sed -i 's/ <\/tspan><tspan/<\/tspan><tspan dx="10"/g' *.svg""", shell=True)
 # subprocess.call("""sed -ri 's/leading=/dx=/g' *.svg""", shell=True)
 
+def RemoveTeacherTabs(t, parentMap):
+    for tspan in t.findall(".//tspan"):
+        if tspan.text and (tspan.text == "Teacher Notes" or tspan.text == "Teacher"):
+            parent = parentMap[tspan] # tspan
+            parent = parentMap[parent] # tspan
+            parent = parentMap[parent] # text
+            parent = parentMap[parent] # g
+            if parentMap[parent].tag == "g" and "{http://www.w3.org/XML/1998/namespace}id" in parentMap[parent].attrib:
+                parent = parentMap[parent] # g
+            if parent.tag == "g":
+                try:
+                    parentMap[parent].remove(parent)
+                    #ids.append(parent.attrib["{http://www.w3.org/XML/1998/namespace}id"])
+                except:
+                    print "Problem with finding parent of pull tab in '%s'" % f
+                    pass
+
 def HideShortAnswerNumerics(t):
     for g in t.findall(".//g"):
         if "class" in g.attrib and g.attrib["class"] == "shortanswernumeric":
@@ -62,11 +79,14 @@ def ProcessNotebook(filename):
     for c in e.find("./*" + nodePrefix + "resource[@identifier='group0_pages']"):
         p = c.attrib['href']
 
+        SMARTLib.FixDuplicateXML(p)
+        fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
+
         t = etree.parse(p)
         parentMap = {c:p for p in t.iter() for c in p}
         PreserveWhitespace(t)
         HideShortAnswerNumerics(t)
-
+        RemoveTeacherTabs(t, parentMap)
         t.write(p)
         
         pullTabIds = SMARTLib.FindPullTabs(t, parentMap, p)
