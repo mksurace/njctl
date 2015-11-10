@@ -23,14 +23,17 @@ def PNGtoJPG(f):
     n = 0
     for img in t.findall(".//image"):
         if img.attrib['%shref' % xlinkPrefix].endswith(".png") and img.attrib['%shref' % xlinkPrefix].startswith("images/clipboard"):
+            pngPath = img.attrib['%shref' % xlinkPrefix]
+            jpgPath = img.attrib['%shref' % xlinkPrefix].replace(".png", ".jpg")
             try:
-                im = Image.open(img.attrib['%shref' % xlinkPrefix])
-                im.save(img.attrib['%shref' % xlinkPrefix].replace(".png", ".jpg"))
-                os.remove(img.attrib['%shref' % xlinkPrefix])
+                im = Image.open(pngPath)
+                im.save(jpgPath)
+                os.remove(pngPath)
+            except:
+                pass
+            if os.path.exists(jpgPath):
                 img.attrib['%shref' % xlinkPrefix] = img.attrib['%shref' % xlinkPrefix].replace(".png", ".jpg")
                 n = n + 1
-            except:
-                print "%s doesn't seem to exist..." % img.attrib['%shref' % xlinkPrefix]
 
     if n > 0:
         print "Converted %d images" % n
