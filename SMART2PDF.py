@@ -7,7 +7,6 @@ import os
 import sys
 import shutil
 import xml.etree.ElementTree as ET
-# import cairosvg
 import subprocess
 from PyPDF2 import PdfFileMerger, PdfFileReader
 from lxml import etree
@@ -54,6 +53,11 @@ def HideShortAnswerNumerics(t):
 def PreserveWhitespace(t):
     t.getroot().attrib["{http://www.w3.org/XML/1998/namespace}space"] = "preserve"
 
+def ContainsTable(t):
+    for tbl in t.findall(".//st_tableset"):
+        return True
+    return False
+
 def AddPageNumber(t, n):
     pageN = etree.SubElement(t.getroot(), "text")
     pageN.text = "Page #%d" % n
@@ -61,7 +65,7 @@ def AddPageNumber(t, n):
     pageN.attrib["x"] = "730"
     pageN.attrib["y"] = "590"
     pageN.attrib["font-family"] = "Arial"
-    pageN.attrib["font-size"] = "12.000"        
+    pageN.attrib["font-size"] = "12.000"
     
 def ProcessNotebook(filename):
     workingFolder = filename.replace(".notebook", "")
@@ -93,7 +97,11 @@ def ProcessNotebook(filename):
 
         AddPageNumber(t, count)
         t.write("%d-%s" % (count, p))
-        subprocess.call("C:\\bin\\rsvg-convert -f pdf -o %d.pdf %d-%s" % (count, count, p), shell=True)
+        if ContainsTable(t):
+            #cairosvg.svg2pdf("%d-%s" % (count, p), write_to_file="%d.pdf" % count)
+            pass
+        else:
+            subprocess.call("C:\\bin\\rsvg-convert -f pdf -o %d.pdf %d-%s" % (count, count, p), shell=True)
 
         slideFiles.append("%d.pdf" % count)
         count = count + 1
@@ -121,7 +129,7 @@ def ProcessNotebook(filename):
 
     merger.write("..\converted\\%s.pdf" % workingFolder)
     os.chdir("..")
-    shutil.rmtree(workingFolder, True)
+    #shutil.rmtree(workingFolder, True)
 
 if __name__ == "__main__":
     os.chdir(sys.argv[1])
