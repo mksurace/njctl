@@ -190,6 +190,13 @@ def ConsistencyCheck(f):
 
     return results
 
+def IsTableOfContentsSlide(f):
+    t = etree.parse(f)
+    for tspan in t.findall(".//tspan"):
+        if tspan.text and tspan.text.strip() == "Table of contents":
+            return True
+    return False
+
 def ProcessNotebook(file):
     workingFolder = file.replace(".notebook", "")
     with zipfile.ZipFile(file) as zf:
@@ -210,10 +217,12 @@ def ProcessNotebook(file):
             
             SMARTLib.FixDuplicateXML(p)
             fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
+
             UpdateText(p)
 
-            if fixedDupes:            
-                NormalizeFont(p, count)
+            if fixedDupes:
+                if count != 3:
+                    NormalizeFont(p, count)
                 UpdatePathWidth(p)
                 DeleteColorEncodings(p)
                 res = ConsistencyCheck(p)
