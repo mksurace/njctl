@@ -76,8 +76,18 @@ def Compare(f1, s1, n1, f2, s2, n2):
     r1 = t1.getroot()
     r2 = t2.getroot()
 
+    str1 = ToSimpleString(r1)
+    str2 = ToSimpleString(r2)
+
+
     if not xml_compare(r1, r2, None):
-        print "Please compare Slide #%d in '%s' against Slide #%d in '%s'" % (n1, f1, n2, f2)
+        print "Slide #%d in '%s' VS Slide #%d in '%s'" % (n1, f1, n2, f2)
+    
+    s = difflib.SequenceMatcher(None, str1, str2)
+    for tag, i1, i2, j1, j2 in s.get_opcodes():
+        if tag != "equal":
+            print ("%7s a[%d:%d] (%s) b[%d:%d] (%s)" %
+               (tag, i1, i2, str1[i1:i2], j1, j2, str2[j1:j2]))
     
     """
     #l1 = etree.tostring(t1, pretty_print = True)
@@ -114,6 +124,14 @@ def UnpackNotebook(file):
     workingFolder = file.replace(".notebook", "")
     with zipfile.ZipFile(file) as zf:
         zf.extractall(workingFolder)
+
+def ToSimpleString(r):
+    res = ""
+    for t in r.findall(".//tspan"):
+        if t.text:
+            res = res + t.text
+
+    return res
 
 def xml_compare(x1, x2, reporter=None):
     if x1.tag != x2.tag:
