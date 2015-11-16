@@ -31,7 +31,7 @@ def Diff(f1, f2):
             break
 
         if slideMapOrig[aIter][0] == slideMapNew[bIter][0]:
-            Compare(f1, slideMapOrig[aIter], aIter+1, f2, slideMapNew[bIter], bIter+1, results)
+            Compare(slideMapNew[bIter][1], bIter+1, slideMapOrig[aIter][1], aIter+1, results)
             if (aIter < len(slideMapOrig) - 1):
                 aIter = aIter + 1
             if (bIter < len(slideMapNew)):
@@ -48,7 +48,7 @@ def Diff(f1, f2):
             else:
                 if Found != bIter:
                     results.append("^^^ Slide #%d was moved to Slide #%d" % (Found+1, bIter+1))
-                Compare("", slideMapNew[bIter][1], bIter+1, "", slideMapOrig[Found][1], Found+1, results)
+                Compare(slideMapNew[bIter][1], bIter+1, slideMapOrig[Found][1], Found+1, results)
                 
             bIter = bIter + 1
 
@@ -62,9 +62,9 @@ def Diff(f1, f2):
             except:
                 pass
 
-def Compare(f1, s1, n1, f2, s2, n2, results):
+def Compare(s1, n1, s2, n2, results):
     tmp = ["### Slide #%d changes" % (n1)]
-    
+   
     s = difflib.SequenceMatcher(None, s2, s1)
     for tag, i1, i2, j1, j2 in s.get_opcodes():
         if tag != "equal":
@@ -74,15 +74,6 @@ def Compare(f1, s1, n1, f2, s2, n2, results):
     if len(tmp) > 1:
         for l in tmp:
             results.append(l)
-    
-    """
-    #l1 = etree.tostring(t1, pretty_print = True)
-    #l2 = etree.tostring(t2, pretty_print = True)
-    
-    #for line in difflib.unified_diff(l1.split("\n"), l2.split("\n")):
-    #    if line.startswith("+") or line.startswith("-"):
-    #        print line
-    """
 
 class Printer:
     def __init__(self, string):
