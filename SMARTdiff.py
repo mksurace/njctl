@@ -15,6 +15,8 @@ from sets import Set
 from lxml import etree
 
 def Diff(f1, f2):
+    results = []
+    
     UnpackNotebook(f1)
     UnpackNotebook(f2)
 
@@ -28,8 +30,8 @@ def Diff(f1, f2):
         if bIter == len(slideMapNew):
             break
 
-        if slideMapOrig[aIter] == slideMapNew[bIter]:
-            Compare(f1, slideMapOrig[aIter], aIter+1, f2, slideMapNew[bIter], bIter+1)
+        if slideMapOrig[aIter][0] == slideMapNew[bIter][0]:
+            Compare(f1, slideMapOrig[aIter], aIter+1, f2, slideMapNew[bIter], bIter+1, results)
             if (aIter < len(slideMapOrig) - 1):
                 aIter = aIter + 1
             if (bIter < len(slideMapNew)):
@@ -37,57 +39,37 @@ def Diff(f1, f2):
         else:
             Found = -1
             for i in range(len(slideMapOrig)):
-                if slideMapOrig[i] == slideMapNew[bIter]:
+                if slideMapOrig[i][0] == slideMapNew[bIter][0]:
                     Found = i
                     break
 
             if Found == -1:
-                print "'%s': Slide #%d is new" % (f2, bIter+1)
+                results.append("+++ Slide #%d is new" % (bIter+1))
             else:
-                print "'%s': Slide #%d was moved from Slide #%d" % (f2, bIter+1, Found)
+                if Found != bIter:
+                    results.append("^^^ Slide #%d was moved to Slide #%d" % (Found+1, bIter+1))
+                Compare("", slideMapNew[bIter][1], bIter+1, "", slideMapOrig[Found][1], Found+1, results)
                 
             bIter = bIter + 1
 
     Cleanup(f1)
     Cleanup(f2)
 
-def Compare(f1, s1, n1, f2, s2, n2):
+    for l in results:
+        print l
 
-    svg1 = "%s\\%s" % (f1.replace(".notebook", ""), s1)
-    svg2 = "%s\\%s" % (f2.replace(".notebook", ""), s2)
+def Compare(f1, s1, n1, f2, s2, n2, results):
+    tmp = ["### Slide #%d VS Slide #%d" % (n1, n2)]
     
-    SMARTLib.FixDuplicateXML(svg1)
-    fixedDupes = SMARTLib.FixDuplicateIDs(svg1, n1)
-
-    if not fixedDupes:
-        print "%s:%d(%s) unable to process" % (f1, n1, s1)
-        return
-
-    SMARTLib.FixDuplicateXML(svg2)
-    fixedDupes = SMARTLib.FixDuplicateIDs(svg2, n2)
-
-    if not fixedDupes:
-        print "%s:%d(%s) unable to process" % (f2, n2, s2)
-        return
-
-    t1 = etree.parse(svg1)
-    t2 = etree.parse(svg2)
-
-    r1 = t1.getroot()
-    r2 = t2.getroot()
-
-    str1 = ToSimpleString(r1)
-    str2 = ToSimpleString(r2)
-
-
-    if not xml_compare(r1, r2, None):
-        print "Slide #%d in '%s' VS Slide #%d in '%s'" % (n1, f1, n2, f2)
-    
-    s = difflib.SequenceMatcher(None, str1, str2)
+    s = difflib.SequenceMatcher(None, s2, s1)
     for tag, i1, i2, j1, j2 in s.get_opcodes():
         if tag != "equal":
-            print ("%7s a[%d:%d] (%s) b[%d:%d] (%s)" %
-               (tag, i1, i2, str1[i1:i2], j1, j2, str2[j1:j2]))
+            tmp.append(("%7s a[%d:%d] (%s) b[%d:%d] (%s)" %
+               (tag, i1, i2, s2[i1:i2], j1, j2, s1[j1:j2])))
+
+    if len(tmp) > 1:
+        for l in tmp:
+            results.append(l)
     
     """
     #l1 = etree.tostring(t1, pretty_print = True)
@@ -112,7 +94,11 @@ def GetSlideMap(file):
 
     for c in e.find("./*" + nodePrefix + "resource[@identifier='group0_pages']"):
         p = c.attrib['href']
-        slideMap.append(p)
+
+        t = etree.parse("%s\\%s" % (workingFolder, p))
+
+        pageId = t.getroot().attrib["{http://www.w3.org/XML/1998/namespace}id"]
+        slideMap.append([pageId, ToSimpleString(t.getroot())])
 
     return slideMap
 
