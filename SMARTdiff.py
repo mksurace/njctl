@@ -55,11 +55,15 @@ def Diff(f1, f2):
     Cleanup(f1)
     Cleanup(f2)
 
-    for l in results:
-        print l
+    with open(f2.replace(".notebook", ".diff.txt"), 'w') as f:
+        for l in results:
+            try:
+                f.write("%s\n" % l)
+            except:
+                pass
 
 def Compare(f1, s1, n1, f2, s2, n2, results):
-    tmp = ["### Slide #%d VS Slide #%d" % (n1, n2)]
+    tmp = ["### Slide #%d changes" % (n1)]
     
     s = difflib.SequenceMatcher(None, s2, s1)
     for tag, i1, i2, j1, j2 in s.get_opcodes():
