@@ -23,9 +23,11 @@ AllowedTSpans = [
     ["#000000", "Arial", "24.000"],
     ["#000000", "Arial", "24.000", "bold"],
     ["#00005E", "Arial", "24.000"],
+    ["#00005E", "Arial", "28.000"], # 1st
     ["#00005E", "Arial", "36.000", "bold"],
     ["#00005E", "Arial", "48.000", "bold"],
     # SR
+    ["#000000", "Arial", "36.000"], # 1st
     ["#000000", "Arial", "28.000"],
     ["#000000", "Arial", "20.000"],
     ]
@@ -42,7 +44,7 @@ Mappings = [
 def UpdateText(f):
     SMARTLib.ReplaceStringsInFile(f, Mappings)
 
-def NormalizeFont(f, n):
+def NormalizeFont(f, n, t):
     t = etree.parse(f)
     parentMap = {c:p for p in t.iter() for c in p}
     pullTabIds = SMARTLib.FindPullTabs(t, parentMap, f)
@@ -111,6 +113,19 @@ def NormalizeFont(f, n):
                         if not unboldedNeighbors:
                             del tspan.attrib["font-weight"]  
 
+            if t == "1st":
+                #FA 36 #000 unbold
+                if hasMultipleChoice and tspan.attrib["fill"] == "#000000":
+                    tspan.attrib["font-size"] = "36.000"
+                #DI 28 blue unbold
+                else:
+                    if tspan.attrib["fill"] == "#00005E":
+                        tspan.attrib["font-size"] = "28.000"
+
+            elif t == "2nd":
+                #DI 28 blue unbold
+                if not hasMultipleChoice and tspan.attrib["fill"] == "#00005E":
+                    tspan.attrib["font-size"] = "28.000"
 
     t.write(f)
 
@@ -214,7 +229,7 @@ def IsTableOfContentsSlide(f):
             return True
     return False
 
-def ProcessNotebook(file):
+def ProcessNotebook(file, t):
     workingFolder = file.replace(".notebook", "")
     with zipfile.ZipFile(file) as zf:
         zf.extractall(workingFolder)
@@ -239,7 +254,7 @@ def ProcessNotebook(file):
 
             if fixedDupes:
                 if count != 3:
-                    NormalizeFont(p, count)
+                    NormalizeFont(p, count, t)
                 UpdatePathWidth(p)
                 DeleteColorEncodings(p)
                 res = ConsistencyCheck(p)
@@ -279,7 +294,7 @@ def ProcessNotebook(file):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Prettify a SMART notebook.')
     parser.add_argument('notebookFolder', help='path to a folder containing SMART notebooks')
-    parser.add_argument('-t', default='1st', help='1st or 2nd')
+    parser.add_argument('-t', default=None, help='1st or 2nd')
 
     args = parser.parse_args()
 
@@ -289,11 +304,9 @@ if __name__ == "__main__":
     except:
         pass
 
-
-    if args.t not in ["1st", "2nd"]:
+    if args.t not in [None, "1st", "2nd"]:
         assert False, "type can only be 1st or 2nd"
-
     
     for file in os.listdir("."):
         if file.find(".notebook") != -1:
-            ProcessNotebook(file)
+            ProcessNotebook(file, args.t)
