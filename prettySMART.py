@@ -92,26 +92,12 @@ def NormalizeFont(f, n, t):
                 tspan.attrib["font-size"] = "24.000"
                 
                 if "font-weight" in tspan.attrib:
-                    if tspan.text and tspan.text.strip().count(" ") > 0:
-                        unboldedNeighbors = False
-                        for sibling in tspan.getparent():
-                            if sibling.tag == "tspan" and "font-weight" not in sibling.attrib:
-                                unboldedNeighbors = True
-
-                        if not unboldedNeighbors:
-                            del tspan.attrib["font-weight"]  
+                    del tspan.attrib["font-weight"]  
                 
 
             if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
                 if "font-weight" in tspan.attrib:
-                    if tspan.text and tspan.text.strip().count(" ") > 0:
-                        unboldedNeighbors = False
-                        for sibling in tspan.getparent():
-                            if sibling.tag == "tspan" and "font-weight" not in sibling.attrib:
-                                unboldedNeighbors = True
-
-                        if not unboldedNeighbors:
-                            del tspan.attrib["font-weight"]  
+                    del tspan.attrib["font-weight"]  
 
             if t == "1st":
                 #FA 36 #000 unbold
