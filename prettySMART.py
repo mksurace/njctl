@@ -93,7 +93,7 @@ def NormalizeFont(f, n):
                     if tspan.text and tspan.text.strip().count(" ") > 0:
                         unboldedNeighbors = False
                         for sibling in tspan.getparent():
-                            if sibling.tag == "tspan" and "font-weight" in sibling.attrib:
+                            if sibling.tag == "tspan" and "font-weight" not in sibling.attrib:
                                 unboldedNeighbors = True
 
                         if not unboldedNeighbors:
@@ -105,7 +105,7 @@ def NormalizeFont(f, n):
                     if tspan.text and tspan.text.strip().count(" ") > 0:
                         unboldedNeighbors = False
                         for sibling in tspan.getparent():
-                            if sibling.tag == "tspan" and "font-weight" in sibling.attrib:
+                            if sibling.tag == "tspan" and "font-weight" not in sibling.attrib:
                                 unboldedNeighbors = True
 
                         if not unboldedNeighbors:
