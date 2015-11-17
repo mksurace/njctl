@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 import random
 import string
 import SMARTLib
+import argparse
 from sets import Set
 from lxml import etree
 
@@ -276,11 +277,23 @@ def ProcessNotebook(file):
 
 
 if __name__ == "__main__":
-    os.chdir(sys.argv[1])
+    parser = argparse.ArgumentParser(description='Prettify a SMART notebook.')
+    parser.add_argument('notebookFolder', help='path to a folder containing SMART notebooks')
+    parser.add_argument('-t', default='1st', help='1st or 2nd')
+
+    args = parser.parse_args()
+
+    os.chdir(args.notebookFolder)
     try:
         os.mkdir("converted")
     except:
         pass
+
+
+    if args.t not in ["1st", "2nd"]:
+        assert False, "type can only be 1st or 2nd"
+
+    
     for file in os.listdir("."):
         if file.find(".notebook") != -1:
             ProcessNotebook(file)
