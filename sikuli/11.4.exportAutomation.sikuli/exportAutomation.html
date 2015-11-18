@@ -1,0 +1,125 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>exportAutomation.sikuli</h2> <a href="exportAutomation.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">from</span> org.sikuli.script.natives <span class="kw">import</span> Vision
+<span class="cmt"># Vision.setParameter("MinTargetSize", 6)</span>
+
+
+waitVanish(<img src="1447860363687.png" />)
+
+
+waitVanish(<img src="1447860673146.png" />)
+<span class="skw">wait</span>(<img src="1447860708512.png" />, FOREVER)
+
+<span class="skw">click</span>(<img src="1447860457604.png" />)
+<span class="skw">type</span>(<span class="str">"f"</span>, Key.ALT)
+<span class="skw">type</span>(<span class="str">"e"</span>)
+<span class="skw">type</span>(<span class="str">"d"</span>)
+<span class="cmt"># Click Full Page</span>
+<span class="skw">wait</span>(<img src="1447860815830.png" />, FOREVER)
+<span class="skw">click</span>(<img src="1447860822195.png" />)
+<span class="cmt"># Delete the Header/Date fields</span>
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(<span class="str">"x"</span>, Key.CTRL)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.TAB)
+<span class="skw">type</span>(Key.DELETE)
+<span class="cmt"># Set to Landscape</span>
+<span class="skw">click</span>(<img src="1447771403950.png" />)
+<span class="skw">wait</span>(<img src="1447860873420.png" />, FOREVER)
+
+<span class="skw">click</span>(<img src="1447771417897.png" />)
+<span class="cmt"># Save the PDF</span>
+<span class="skw">type</span>(Key.ENTER)
+<span class="skw">wait</span>(<img src="1447861698414.png" />, FOREVER)
+<span class="skw">wait</span>(<img src="1447861716988.png" />, FOREVER)
+<span class="skw">sleep</span>(<span class="dig">2</span>)
+<span class="cmt"># Enter Filename</span>
+<span class="skw">type</span>(<span class="str">"v"</span>, Key.CTRL)
+<span class="cmt"># Delete notebook from the end.</span>
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.BACKSPACE)
+<span class="skw">type</span>(Key.HOME)
+<span class="skw">type</span>(<span class="str">"D:\\PDFs\\"</span>)
+<span class="cmt"># Save!</span>
+<span class="skw">type</span>(Key.ENTER)
+waitVanish(<img src="1447862138132.png" />)
+</pre>
+</body>
+</html>
