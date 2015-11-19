@@ -8,7 +8,6 @@ import sys
 import shutil
 import xml.etree.ElementTree as ET
 import subprocess
-from PyPDF2 import PdfFileMerger, PdfFileReader
 from lxml import etree
 import SMARTLib
 
@@ -136,7 +135,6 @@ def ProcessNotebook(filename):
 
     count = -1
     for k in newPagesMap:
-        print k+count
         f = etree.Element("file")
         f.attrib["href"] = newPagesMap[k]
         group0_pages.insert(k+count, f)        
@@ -167,6 +165,7 @@ def ProcessNotebook(filename):
     os.chdir("..")
 
     shutil.rmtree(workingFolder, True)
+    return '%s-PulledTabs.notebook' % workingFolder
 
 if __name__ == "__main__":
     ProcessNotebook(sys.argv[1])

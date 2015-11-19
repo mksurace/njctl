@@ -8,7 +8,6 @@ import sys
 import shutil
 import xml.etree.ElementTree as ET
 import subprocess
-from PyPDF2 import PdfFileMerger, PdfFileReader
 from lxml import etree
 import SMARTLib
 
@@ -71,6 +70,8 @@ def ProcessNotebook(filename):
     os.chdir("..")
 
     shutil.rmtree(workingFolder, True)
+
+    return '%s-NoTabs.notebook' % workingFolder
 
 if __name__ == "__main__":
     ProcessNotebook(sys.argv[1])

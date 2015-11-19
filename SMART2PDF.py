@@ -1,142 +1,24 @@
 # NJCTL SMART2PDF
 # anthony@njctl.org
 
-import zipfile
-import os.path
 import os
 import sys
-import shutil
-import xml.etree.ElementTree as ET
 import subprocess
-from PyPDF2 import PdfFileMerger, PdfFileReader
-from lxml import etree
-import SMARTLib
-from reportlab.pdfgen.canvas import Canvas
-from reportlab.pdfbase import pdfmetrics
-from pdfrw import PdfReader
-from pdfrw.toreportlab import makerl
-from pdfrw.buildxobj import pagexobj
+import SMARTpullTabs
+import SMARThideTabs
 
-nodePrefix = "{http://www.imsglobal.org/xsd/imscp_v1p1}"
-
-### Preprocess the SVGs as they are not the best..
-# superscript
-#subprocess.call("""sed -i 's/baseline-shift="[0-9]*.[0-9]*"/dy="-7.2" dx="2"/g' *.svg""", shell=True)
-# subscript
-#subprocess.call("""sed -i 's/baseline-shift="-[0-9]*.[0-9]*"/dy="5.0"/g' *.svg""", shell=True)
-# trailing whitespace
-# subprocess.call("""sed -i 's/ <\/tspan><tspan/<\/tspan><tspan dx="10"/g' *.svg""", shell=True)
-# subprocess.call("""sed -ri 's/leading=/dx=/g' *.svg""", shell=True)
-
-def RemoveTeacherTabs(t, parentMap):
-    for tspan in t.findall(".//tspan"):
-        if tspan.text and (tspan.text == "Teacher Notes" or tspan.text == "Teacher"):
-            parent = parentMap[tspan] # tspan
-            parent = parentMap[parent] # tspan
-            parent = parentMap[parent] # text
-            parent = parentMap[parent] # g
-            if parentMap[parent].tag == "g" and "{http://www.w3.org/XML/1998/namespace}id" in parentMap[parent].attrib:
-                parent = parentMap[parent] # g
-            if parent.tag == "g":
-                try:
-                    parentMap[parent].remove(parent)
-                    #ids.append(parent.attrib["{http://www.w3.org/XML/1998/namespace}id"])
-                except:
-                    print "Problem with finding parent of pull tab in '%s'" % f
-                    pass
-
-def HideShortAnswerNumerics(t):
-    for g in t.findall(".//g"):
-        if "class" in g.attrib and g.attrib["class"] == "shortanswernumeric":
-            g.attrib["visibility"] = "hidden"
-
-def PreserveWhitespace(t):
-    t.getroot().attrib["{http://www.w3.org/XML/1998/namespace}space"] = "preserve"
-
-def ContainsTable(t):
-    for tbl in t.findall(".//st_tableset"):
-        return True
-    return False
-
-def AddPageNumber(t, n):
-    pageN = etree.SubElement(t.getroot(), "text")
-    pageN.text = "Page #%d" % n
-    pageN.attrib["fill"] = "#000000"
-    pageN.attrib["x"] = "730"
-    pageN.attrib["y"] = "590"
-    pageN.attrib["font-family"] = "Arial"
-    pageN.attrib["font-size"] = "12.000"
-    
-def ProcessNotebook(filename):
-    workingFolder = filename.replace(".notebook", "")
-    with zipfile.ZipFile(filename) as zf:
-        zf.extractall(workingFolder)
-
-    os.chdir(workingFolder)
-
-    nodePrefix = "{http://www.imsglobal.org/xsd/imscp_v1p1}"
-    e = ET.parse("imsmanifest.xml").getroot()
-    count = 1
-
-    slideFiles = []
-
-    for c in e.find("./*" + nodePrefix + "resource[@identifier='group0_pages']"):
-        p = c.attrib['href']
-
-        SMARTLib.FixDuplicateXML(p)
-        fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
-
-        t = etree.parse(p)
-        parentMap = {c:p for p in t.iter() for c in p}
-        PreserveWhitespace(t)
-        HideShortAnswerNumerics(t)
-        RemoveTeacherTabs(t, parentMap)
-        t.write(p)
+def ProcessNotebook(file):
+    # First create a no-pull-tab version and a pull-tab version of the notebook.
+    for notebookToConvert in [SMARThideTabs.ProcessNotebook(file), SMARTpullTabs.ProcessNotebook(file)]:
+        # Open the notebook file
+        subprocess.Popen(notebookToConvert, shell=True)
         
-        pullTabIds = SMARTLib.FindPullTabs(t, parentMap, p)
-
-        AddPageNumber(t, count)
-        t.write("%d-%s" % (count, p))
-        if ContainsTable(t):
-            #cairosvg.svg2pdf("%d-%s" % (count, p), write_to_file="%d.pdf" % count)
-            pass
-        else:
-            subprocess.call("C:\\bin\\rsvg-convert -f pdf -o %d.pdf %d-%s" % (count, count, p), shell=True)
-
-        slideFiles.append("%d.pdf" % count)
-        count = count + 1
+        # Launch the sikuli script to turn it into a PDF
+        p = subprocess.Popen("C:\\sikuli\\runsikulix.cmd -r C:\\njctl\\sikuli\\11.4.exportAutomation.sikuli", shell=True)
+        p.wait()
         
-        if len(pullTabIds) > 0:
-            t = etree.parse(p)
-            
-            # Create a second slide with the answer tab pulled out
-            for g in t.findall(".//g"):
-                if "{http://www.w3.org/XML/1998/namespace}id" in g.attrib:
-                    id = g.attrib["{http://www.w3.org/XML/1998/namespace}id"]
-                    if id in pullTabIds:
-                        g.attrib["transform"] = "translate(-600, 0)"
-
-            AddPageNumber(t, count)
-            t.write("%d-%s" % (count, p))
-            
-            subprocess.call("C:\\bin\\rsvg-convert -f pdf -o %d.pdf %d-%s" % (count, count, p), shell=True)
-            slideFiles.append("%d.pdf" % count)
-            count = count + 1
-
-    merger = PdfFileMerger()
-    for f in slideFiles:
-        merger.append(PdfFileReader(open(f, 'rb')))
-
-    merger.write("..\converted\\%s.pdf" % workingFolder)
-    os.chdir("..")
-    #shutil.rmtree(workingFolder, True)
+        # 
+        print notebookToConvert
 
 if __name__ == "__main__":
-    os.chdir(sys.argv[1])
-    try:
-        os.mkdir("converted")
-    except:
-        pass
-    for file in os.listdir("."):
-        if file.find(".notebook") != -1:
-            ProcessNotebook(file)
+    ProcessNotebook(sys.argv[1])

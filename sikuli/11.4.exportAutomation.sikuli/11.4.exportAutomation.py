@@ -1,7 +1,3 @@
-from org.sikuli.script.natives import Vision
-# Vision.setParameter("MinTargetSize", 6)
-
-
 waitVanish("1447860363687.png")
 
 
@@ -47,4 +43,8 @@ type(Key.HOME)
 type("D:\\PDFs\\")
 # Save!
 type(Key.ENTER)
-waitVanish("1447862138132.png")
+wait("1447860708512.png", FOREVER)
+
+click("1447860457604.png")
+type("f", Key.ALT)
+type("x")
