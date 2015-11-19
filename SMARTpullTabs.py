@@ -134,15 +134,13 @@ def ProcessNotebook(filename):
             t.write("page%d.svg" % maxPage)
             newPagesMap[count] = "page%d.svg" % maxPage
 
-    count = 0
+    count = -1
     for k in newPagesMap:
+        print k+count
         f = etree.Element("file")
         f.attrib["href"] = newPagesMap[k]
-        #group0_pages.insert(k+count, f)
-        #pages.insert(k+count, f)
-
-        group0_pages.append(f)
-        pages.append(f)
+        group0_pages.insert(k+count, f)        
+        pages.insert(k+count, f)
         count = count + 1
             
     e.write("imsmanifest.xml")
