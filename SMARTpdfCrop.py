@@ -18,6 +18,6 @@ if __name__ == "__main__":
         page.cropBox.upperRight = (753, 548)
         output.addPage(page)
 
-    outputStream = file("%s-cropped.pdf" % sys.argv[1], "wb")
+    outputStream = file(sys.argv[1].replace(".pdf", ".cropped.pdf"), "wb")
     output.write(outputStream)
     outputStream.close()
