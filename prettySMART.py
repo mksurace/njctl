@@ -44,7 +44,7 @@ Mappings = [
 def UpdateText(f):
     SMARTLib.ReplaceStringsInFile(f, Mappings)
 
-def NormalizeFont(f, n, t):
+def NormalizeFont(f, n, style):
     t = etree.parse(f)
     parentMap = {c:p for p in t.iter() for c in p}
     pullTabIds = SMARTLib.FindPullTabs(t, parentMap, f)
@@ -99,7 +99,7 @@ def NormalizeFont(f, n, t):
                 if "font-weight" in tspan.attrib:
                     del tspan.attrib["font-weight"]  
 
-            if t == "1st":
+            if style == "1st":
                 #FA 36 #000 unbold
                 if hasMultipleChoice and tspan.attrib["fill"] == "#000000":
                     tspan.attrib["font-size"] = "36.000"
@@ -108,7 +108,7 @@ def NormalizeFont(f, n, t):
                     if tspan.attrib["fill"] == "#00005E":
                         tspan.attrib["font-size"] = "28.000"
 
-            elif t == "2nd":
+            elif style == "2nd":
                 #DI 28 blue unbold
                 if not hasMultipleChoice and tspan.attrib["fill"] == "#00005E":
                     tspan.attrib["font-size"] = "28.000"
