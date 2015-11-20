@@ -32,13 +32,13 @@ AllowedTSpans = [
     ["#000000", "Arial", "20.000"],
     ]
 
-def GetTopics(f):
-    topics = []
+def GetTopic(f):
+    topic = ""
     t = etree.parse(f)
     for tspan in t.findall(".//tspan"):
         if tspan.text and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "36.000" and "font-weight" in tspan.attrib and len(tspan.text.strip()) > 1:
-            topics.append(tspan.text.strip())
-    return topics
+            topic += tspan.text
+    return topic
 
 def ProcessNotebook(file):
     workingFolder = file.replace(".notebook", "")
@@ -63,16 +63,16 @@ def ProcessNotebook(file):
             fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
 
             if fixedDupes:
-                for topic in GetTopics(p):
-                    if topic not in topics:
-                        topics.append(topic)
+                topic = GetTopic(p)
+                if topic and topic not in topics:
+                    topics.append(topic)
             else:
                 out.write("Slide #%d (%s): Unable to process.. Please manually verify.\n" % (count, p))
                 
             count = count + 1
 
         for topic in topics:
-            out.write("'%s'\n" % topic.encode('utf-8'))
+            out.write("%s\n" % topic.encode('utf-8'))
 
         os.chdir("..")
 
