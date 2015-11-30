@@ -166,7 +166,7 @@ def ShouldIgnore(tspan, pullTabIds, parentMap):
                     return True
             except:
                 pass
-    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol", "Arial"]:
+    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol"]:
         if len(tspan.text.strip()) == 1:
             return True
         if len(tspan.text.strip()) == 2 and tspan.text.strip() == "**":
