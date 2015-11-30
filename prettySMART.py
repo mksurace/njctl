@@ -157,7 +157,7 @@ def IsQuestion(tspan, parentMap):
         else:
             break
         
-        if "class" in parent.attrib and parent.attrib["class"] == "question":
+        if "class" in parent.attrib and parent.attrib["class"] in ["question", "questionchoice"]:
             return True
 
     return False
