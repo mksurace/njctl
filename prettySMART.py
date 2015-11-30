@@ -76,8 +76,8 @@ def NormalizeFont(f, n, style):
             if n == 3:
                 continue
 
-            if hasMultipleChoice and tspan.attrib["font-size"] in ["17.000", "30.000", "19.000", "18.000", "21.000"] and tspan.attrib["fill"] == "#000000":
-                tspan.attrib["font-size"] = "20.000"
+            if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
+                tspan.attrib["font-size"] = "28.000"
 
             if tspan.attrib["font-size"] in ["15.000", "17.000", "20.000", "21.000"] and tspan.attrib["fill"] == "#00005E":
                 tspan.attrib["font-size"] = "24.000"
@@ -147,6 +147,20 @@ def RepresentsInt(s):
         return True
     except ValueError:
         return False
+
+def IsQuestion(tspan, parentMap):
+    parent = tspan
+    
+    while True:
+        if parent in parentMap:
+            parent = parentMap[parent]
+        else:
+            break
+        
+        if "class" in parent.attrib and parent.attrib["class"] == "question":
+            return True
+
+    return False
 
 def ShouldIgnore(tspan, pullTabIds, parentMap):
     if not tspan.text:
