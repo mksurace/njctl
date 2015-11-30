@@ -30,6 +30,9 @@ AllowedTSpans = [
     ["#000000", "Arial", "36.000"], # 1st
     ["#000000", "Arial", "28.000"],
     ["#000000", "Arial", "20.000"],
+    # Video Links
+    ["#000000", "Arial", "10.000"],
+    ["#000000", "Arial", "8.000"],
     ]
 Mappings = [
     ["Times New Roman", "Arial"],
@@ -71,6 +74,14 @@ def NormalizeFont(f, n, style):
             else:
                 tspan.attrib["font-size"] = tspan.attrib["font-size"].split(".")[0] + ".000"
 
+            if n == 3:
+                continue
+
+            if tspan.attrib["font-size"] in ["19.000", "18.000", "21.000"] and tspan.attrib["fill"] == "#000000":
+                tspan.attrib["font-size"] = "20.000"
+
+            if tspan.attrib["font-size"] in ["15.000", "17.000", "20.000", "21.000"] and tspan.attrib["fill"] == "#00005E":
+                tspan.attrib["font-size"] = "24.000"
 
             if "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Times New Roman":
                 tspan.attrib["font-family"] = "Arial"
@@ -92,8 +103,7 @@ def NormalizeFont(f, n, style):
                 tspan.attrib["font-size"] = "24.000"
                 
                 if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]  
-                
+                    del tspan.attrib["font-weight"]
 
             if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
                 if "font-weight" in tspan.attrib:
@@ -157,7 +167,7 @@ def ShouldIgnore(tspan, pullTabIds, parentMap):
                     return True
             except:
                 pass
-    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial Unicode MS":
+    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol"]:
         if len(tspan.text.strip()) == 1:
             return True
     if "supersuboriginalfont" in tspan.attrib:
@@ -240,8 +250,7 @@ def ProcessNotebook(file, t):
             UpdateText(p)
 
             if fixedDupes:
-                if count != 3:
-                    NormalizeFont(p, count, t)
+                NormalizeFont(p, count, t)
                 UpdatePathWidth(p)
                 DeleteColorEncodings(p)
                 res = ConsistencyCheck(p)
