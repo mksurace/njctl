@@ -42,7 +42,6 @@ Mappings = [
     ["#00008b", "#00005E"],
     ["#333399", "#00005E"]
     ]
-
    
 def UpdateText(f):
     SMARTLib.ReplaceStringsInFile(f, Mappings)
@@ -77,7 +76,7 @@ def NormalizeFont(f, n, style):
             if n == 3:
                 continue
 
-            if tspan.attrib["font-size"] in ["19.000", "18.000", "21.000"] and tspan.attrib["fill"] == "#000000":
+            if hasMultipleChoice and tspan.attrib["font-size"] in ["17.000", "30.000", "19.000", "18.000", "21.000"] and tspan.attrib["fill"] == "#000000":
                 tspan.attrib["font-size"] = "20.000"
 
             if tspan.attrib["font-size"] in ["15.000", "17.000", "20.000", "21.000"] and tspan.attrib["fill"] == "#00005E":
@@ -167,8 +166,10 @@ def ShouldIgnore(tspan, pullTabIds, parentMap):
                     return True
             except:
                 pass
-    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol"]:
+    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol", "Arial"]:
         if len(tspan.text.strip()) == 1:
+            return True
+        if len(tspan.text.strip()) == 2 and tspan.text.strip() == "**":
             return True
     if "supersuboriginalfont" in tspan.attrib:
         return True
