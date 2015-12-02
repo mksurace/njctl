@@ -17,26 +17,30 @@ from lxml import etree
 nodePrefix = "{http://www.imsglobal.org/xsd/imscp_v1p1}"
 xlinkPrefix = "{http://www.w3.org/1999/xlink}"
 
-def PNGtoJPG(f, slideN):
+def PNGtoJPG(f, slideN, mappings):
     t = etree.parse(f)
 
     n = 0
     for img in t.findall(".//image"):
         if img.attrib['%shref' % xlinkPrefix].endswith(".png") and img.attrib['%shref' % xlinkPrefix].startswith("images/clipboard"):
             pngPath = img.attrib['%shref' % xlinkPrefix]
-            jpgPath = "images/%d.%d.jpg" % (slideN, n)
-            try:
-                im = Image.open(pngPath)
-                im.save(jpgPath)
-            except:
-                pass
-            if os.path.exists(jpgPath):
-                img.attrib['%shref' % xlinkPrefix] = jpgPath
-                os.remove(pngPath)
+            jpgPath = pngPath.replace(".png", ".reduced.jpg")
+            
+            if pngPath in mappings:
+                img.attrib['%shref' % xlinkPrefix] = mappings[pngPath]
+                n = n + 1
             else:
-                print "Failed to convert '%s'" % pngPath
-            n = n + 1
-
+                if os.path.exists(pngPath):
+                    im = Image.open(pngPath)
+                    im.save(jpgPath)
+                    img.attrib['%shref' % xlinkPrefix] = jpgPath
+                    os.remove(pngPath)
+                    mappings[pngPath] = jpgPath
+                    
+                    n = n + 1
+                else:
+                    print "Failed to convert '%s'" % pngPath
+                
     if n > 0:
         print "Slide #%d(%s) Converted %d images" % (slideN, f, n)
         t.write(f)
@@ -52,7 +56,7 @@ def ProcessNotebook(file):
     e = ET.parse("imsmanifest.xml").getroot()
     count = 1
 
-    results = Set()
+    mappings = {}
 
     for c in e.find("./*" + nodePrefix + "resource[@identifier='group0_pages']"):
         p = c.attrib['href']
@@ -61,7 +65,7 @@ def ProcessNotebook(file):
         fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
 
         if fixedDupes:
-            PNGtoJPG(p, count)
+            PNGtoJPG(p, count, mappings)
         else:
             print "Slide #%d (%s): Unable to process.. Please manually verify.\n" % (count, p)
             
