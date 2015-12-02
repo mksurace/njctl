@@ -24,7 +24,7 @@ def PNGtoJPG(f):
     for img in t.findall(".//image"):
         if img.attrib['%shref' % xlinkPrefix].endswith(".png") and img.attrib['%shref' % xlinkPrefix].startswith("images/clipboard"):
             pngPath = img.attrib['%shref' % xlinkPrefix]
-            jpgPath = img.attrib['%shref' % xlinkPrefix].replace(".png", ".jpg")
+            jpgPath = img.attrib['%shref' % xlinkPrefix].replace(".png", ".reduced.%d.jpg" % n)
             try:
                 im = Image.open(pngPath)
                 im.save(jpgPath)
@@ -32,7 +32,7 @@ def PNGtoJPG(f):
             except:
                 pass
             if os.path.exists(jpgPath):
-                img.attrib['%shref' % xlinkPrefix] = img.attrib['%shref' % xlinkPrefix].replace(".png", ".jpg")
+                img.attrib['%shref' % xlinkPrefix] = img.attrib['%shref' % xlinkPrefix].replace(".png", ".reduced.%d.jpg" % n)
                 n = n + 1
 
     if n > 0:
