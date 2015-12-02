@@ -76,6 +76,9 @@ def NormalizeFont(f, n, style):
             if n == 3:
                 continue
 
+            if "fill" in tspan.attrib:
+                tspan.attrib["fill"] = tspan.attrib["fill"].upper()
+
             if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
                 tspan.attrib["font-size"] = "28.000"
 
