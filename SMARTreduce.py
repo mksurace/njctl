@@ -17,26 +17,28 @@ from lxml import etree
 nodePrefix = "{http://www.imsglobal.org/xsd/imscp_v1p1}"
 xlinkPrefix = "{http://www.w3.org/1999/xlink}"
 
-def PNGtoJPG(f):
+def PNGtoJPG(f, slideN):
     t = etree.parse(f)
 
     n = 0
     for img in t.findall(".//image"):
         if img.attrib['%shref' % xlinkPrefix].endswith(".png") and img.attrib['%shref' % xlinkPrefix].startswith("images/clipboard"):
             pngPath = img.attrib['%shref' % xlinkPrefix]
-            jpgPath = img.attrib['%shref' % xlinkPrefix].replace(".png", ".reduced.%d.jpg" % n)
+            jpgPath = "images/%d.%d.jpg" % (slideN, n)
             try:
                 im = Image.open(pngPath)
                 im.save(jpgPath)
-                os.remove(pngPath)
             except:
                 pass
             if os.path.exists(jpgPath):
-                img.attrib['%shref' % xlinkPrefix] = img.attrib['%shref' % xlinkPrefix].replace(".png", ".reduced.%d.jpg" % n)
-                n = n + 1
+                img.attrib['%shref' % xlinkPrefix] = jpgPath
+                os.remove(pngPath)
+            else:
+                print "Failed to convert '%s'" % pngPath
+            n = n + 1
 
     if n > 0:
-        print "Converted %d images" % n
+        print "Slide #%d(%s) Converted %d images" % (slideN, f, n)
         t.write(f)
 
 def ProcessNotebook(file):
@@ -59,7 +61,7 @@ def ProcessNotebook(file):
         fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
 
         if fixedDupes:
-            PNGtoJPG(p)
+            PNGtoJPG(p, count)
         else:
             print "Slide #%d (%s): Unable to process.. Please manually verify.\n" % (count, p)
             
