@@ -31,6 +31,7 @@ AllowedTSpans = [
     ["#000000", "Arial", "28.000"],
     ["#000000", "Arial", "20.000"],
     # Video Links
+    ["#000000", "Arial", "12.000"],
     ["#000000", "Arial", "10.000"],
     ["#000000", "Arial", "8.000"],
     ]
@@ -55,7 +56,10 @@ def NormalizeFont(f, n, style):
     for votemetadata in t.findall(".//votemetadata"):
         hasMultipleChoice = True
 
-    for tspan in t.findall(".//tspan"):
+    for tspan in t.iter():
+        if not (tspan.tag == "{http://www.w3.org/2000/svg}tspan" or tspan.tag == "tspan"):
+            continue
+
         if ShouldIgnore(tspan, pullTabIds, parentMap):
             continue
         
@@ -78,6 +82,19 @@ def NormalizeFont(f, n, style):
 
             if "fill" in tspan.attrib:
                 tspan.attrib["fill"] = tspan.attrib["fill"].upper()
+
+            ## Oddities in Physics B
+            if tspan.attrib["fill"] == "#000000" and tspan.attrib["font-size"] in ["21.000", "24.000", "18.000"]:
+                if "font-weight" in tspan.attrib:
+                    del tspan.attrib["font-weight"]
+                tspan.attrib["font-size"] = "28.000"
+
+            if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] in ["38.000"] and "font-weight" in tspan.attrib:
+                tspan.attrib["font-size"] = "48.000"
+            if tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Comic Sans MS"]:
+                tspan.attrib["font-family"] = "Arial"
+            ##
+            
 
             if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
                 tspan.attrib["font-size"] = "28.000"
@@ -109,7 +126,7 @@ def NormalizeFont(f, n, style):
 
             if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
                 if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]  
+                    del tspan.attrib["font-weight"]
 
             if style == "1st":
                 #FA 36 #000 unbold
@@ -214,7 +231,10 @@ def ConsistencyCheck(f):
     results["nTotalTSpan"] = 0
     results["Arcs"] = Set()
 
-    for tspan in t.findall(".//tspan"):
+    for tspan in t.iter():
+        if not (tspan.tag == "{http://www.w3.org/2000/svg}tspan" or tspan.tag == "tspan"):
+            continue
+
         if ShouldIgnore(tspan, pullTabIds, parentMap):
             continue
         
