@@ -42,7 +42,7 @@ def ProcessNotebook(filename):
 
         t = etree.parse(p)
         parentMap = {c:p for p in t.iter() for c in p}
-        pullTabIds = SMARTLib.FindPullTabs(t, parentMap, p)
+        pullTabIds = SMARTLib.FindPullTabs(t, parentMap, p, True)
 
         if len(pullTabIds) > 0:
         # Replace the end of the document, which should be </g></svg> with the following.

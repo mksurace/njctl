@@ -23,11 +23,14 @@ def FixDuplicateXML(f):
     
     return False
 
-def FindPullTabs(t, parentMap, f):
+def FindPullTabs(t, parentMap, f, skipTeacher=False):
     ids = []
     
     for tspan in t.findall(".//tspan"):
         if tspan.text and (tspan.text.find("[This object") != -1 or tspan.text == "Teacher Notes" or tspan.text == "Teacher"):
+            if skipTeacher and (tspan.text == "Teacher Notes" or tspan.text == "Teacher"):
+                continue
+            
             parent = parentMap[tspan] # tspan
             parent = parentMap[parent] # tspan
             parent = parentMap[parent] # text
