@@ -290,7 +290,13 @@ def ProcessNotebook(file, t):
 
     with open("../converted/%s.notes.txt" % workingFolder, 'w') as out:    
         for c in e.find("./*" + nodePrefix + "resource[@identifier='group0_pages']"):
-            p = c.attrib['href']
+            p = None
+            
+            try:
+                p = c.attrib['href']
+            except:
+                print "%s has a problem" % workingFolder
+                break
             
             SMARTLib.FixDuplicateXML(p)
             fixedDupes = SMARTLib.FixDuplicateIDs(p, count)
