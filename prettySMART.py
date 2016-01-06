@@ -163,7 +163,6 @@ def DeleteColorEncodings(f):
         if not (i.tag == "{http://www.w3.org/2000/svg}image" or i.tag == "image"):
             continue
 
-        print i
         if "height" in i.attrib and i.attrib["height"] == "5.00" and float(i.attrib["y"]) < 20:
             i.getparent().remove(i)
             deleted = True
