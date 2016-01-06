@@ -289,8 +289,11 @@ def ProcessNotebook(file, t):
 
     with open("../converted/%s.notes.txt" % workingFolder, 'w') as out:    
         for c in e.find("./*" + nodePrefix + "resource[@identifier='group0_pages']"):
+            if "file" not in c.tag:
+                continue
+
             p = None
-            
+
             try:
                 p = c.attrib['href']
             except:
