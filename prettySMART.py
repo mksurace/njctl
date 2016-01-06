@@ -155,12 +155,21 @@ def UpdatePathWidth(f):
     t.write(f)
 
 def DeleteColorEncodings(f):
-    t = etree.parse(f)
     # Delete any of those color coded things at the top
-    for i in t.findall(".//image"):
+    t = etree.parse(f)
+    
+    deleted = False
+    for i in t.iter():
+        if not (i.tag == "{http://www.w3.org/2000/svg}image" or i.tag == "image"):
+            continue
+
+        print i
         if "height" in i.attrib and i.attrib["height"] == "5.00" and float(i.attrib["y"]) < 20:
             i.getparent().remove(i)
-    t.write(f)
+            deleted = True
+
+    if deleted:
+        t.write(f)
 
 def RepresentsInt(s):
     try: 
