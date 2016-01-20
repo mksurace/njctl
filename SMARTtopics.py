@@ -14,24 +14,6 @@ import argparse
 from sets import Set
 from lxml import etree
 
-# Color, Font-Family, Font-Size, Font-Weight (optional)
-AllowedTSpans = [
-    # Title Slide
-    ["#00005E", "Arial", "24.000", "bold"],
-    ["#00005E", "Arial", "20.000", "bold"],
-    # Text
-    ["#000000", "Arial", "24.000"],
-    ["#000000", "Arial", "24.000", "bold"],
-    ["#00005E", "Arial", "24.000"],
-    ["#00005E", "Arial", "28.000"], # 1st
-    ["#00005E", "Arial", "36.000", "bold"],
-    ["#00005E", "Arial", "48.000", "bold"],
-    # SR
-    ["#000000", "Arial", "36.000"], # 1st
-    ["#000000", "Arial", "28.000"],
-    ["#000000", "Arial", "20.000"],
-    ]
-
 def GetTopic(f):
     topic = ""
     t = etree.parse(f)
