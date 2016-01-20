@@ -5,7 +5,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Splice a PDF')
     parser.add_argument('pdfPath', help='path to PDF')
     parser.add_argument('topic', help='topic name')
-    parser.add_argument('start', help='start of range, inclusive', type=int)
+    parser.add_argument('start', help='start of range, inclusive, indexed by 1', type=int)
     parser.add_argument('end', help='end of range, inclusive', type=int)
 
     args = parser.parse_args()
@@ -15,11 +15,11 @@ if __name__ == "__main__":
 
     numPages = input1.getNumPages()
 
-    for i in range(args.start, args.end):
+    for i in range(args.start-1, args.end):
         page = input1.getPage(i)
         output.addPage(page)
 
-    outputStream = file(args.pdfPath.replace(".pdf", ".%s.%d-%d.pdf" %(args.topic, args.start, args.end)), "wb")
+    outputStream = file(args.pdfPath.replace(".pdf", ".%s.pdf" % args.topic), "wb")
     output.write(outputStream)
     outputStream.close()
 
