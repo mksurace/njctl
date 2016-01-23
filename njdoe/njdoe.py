@@ -104,13 +104,17 @@ for yr in [2010, 2011, 2012, 2013, 13, 14]:
             mathCount = 0
             rank = 1
             curScore = 0
+            skip = 1
             for school in schools:
                 if school[8] > 0:
                     schoolMathRankings[school[0]] = rank
 
                     if curScore != school[8]:
-                        rank = rank + 1
+                        rank = rank + skip
                         curScore = school[8]
+                        skip = 1
+                    else:
+                        skip = skip + 1
                         
                     mathCount = mathCount + 1
                     
@@ -128,13 +132,17 @@ for yr in [2010, 2011, 2012, 2013, 13, 14]:
             scienceCount = 0
             rank = 1
             curScore = 0
+            skip = 1
             for school in schools:
                 if school[13] > 0:
                     schoolScienceRankings[school[0]] = rank
 
                     if curScore != school[13]:
-                        rank = rank + 1
+                        rank = rank + skip
                         curScore = school[13]
+                        skip = 1
+                    else:
+                        skip = skip + 1
                         
                     scienceCount = scienceCount + 1
 
