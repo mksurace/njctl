@@ -124,11 +124,20 @@ def NormalizeFont(f, n, style):
                 if "font-weight" in tspan.attrib:
                     del tspan.attrib["font-weight"]
 
-            if tspan.attrib["font-size"] == "48.000":
+            if tspan.attrib["font-size"] == "36.000" and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-weight"] = "bold"
 
-            if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#00005E":
-                tspan.attrib["font-size"] = "24.000"
+            if style == "1st":
+                #Title of Slides
+                if tspan.attrib["fill"] == "#000000":
+                        tspan.attrib["font-size"] = "36.000" and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-weight"] = "bold"
+                #Body of slides
+                else:
+                    if tspan.attrib["font-family"] == "Arial":
+                        tspan.attrib["font-size"] = "28.000" and tspan.attrib["fill"] == "#00005E"
+                
+            if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000":
+                tspan.attrib["font-size"] = "24.000" and tspan.attrib["fill"] == "#00005E"
                 
                 if "font-weight" in tspan.attrib:
                     del tspan.attrib["font-weight"]
