@@ -23,6 +23,7 @@ AllowedTSpans = [
     ["#000000", "Arial", "24.000"],
     ["#000000", "Arial", "24.000", "bold"],
     ["#00005E", "Arial", "24.000"],
+    ["#00005E", "Arial", "18.000"],
     ["#00005E", "Arial", "28.000"], # 1st
     ["#00005E", "Arial", "36.000", "bold"],
     ["#00005E", "Arial", "48.000", "bold"],
@@ -42,7 +43,8 @@ AllowedTSpans = [
     ["#000000", "Courier New", "28.000"],
     ["#00005E", "Courier New", "20.000"],
     ["#00005E", "Courier New", "24.000"],
-    ["#00005E", "Courier New", "28.000"],   
+    ["#00005E", "Courier New", "28.000"],
+    ["#00005E", "Courier New", "18.000"],
     ]
 Mappings = [
     ["Times New Roman", "Arial", "Courier New"],
