@@ -75,16 +75,16 @@ def NormalizeFont(f, n, style):
         if "font-size" in tspan.attrib:
             size = float(tspan.attrib["font-size"])
         
-            if abs(size - 24) <= 2:
-                tspan.attrib["font-size"] = "24.000"
-            elif abs(size - 28) <= 2:
-                tspan.attrib["font-size"] = "28.000"
-            elif abs(size - 36) <= 2:
-                tspan.attrib["font-size"] = "36.000"
-            elif abs(size - 48) <= 2:
-                tspan.attrib["font-size"] = "48.000"
-            else:
-                tspan.attrib["font-size"] = tspan.attrib["font-size"].split(".")[0] + ".000"
+           ## if abs(size - 24) <= 2:
+           ##     tspan.attrib["font-size"] = "24.000"
+           ## elif abs(size - 28) <= 2:
+           ##     tspan.attrib["font-size"] = "28.000"
+           ## elif abs(size - 36) <= 2:
+           ##     tspan.attrib["font-size"] = "36.000"
+           ## elif abs(size - 48) <= 2:
+           ##     tspan.attrib["font-size"] = "48.000"
+           ## else:
+           ##     tspan.attrib["font-size"] = tspan.attrib["font-size"].split(".")[0] + ".000"
 
             if n == 3:
                 continue
@@ -93,54 +93,47 @@ def NormalizeFont(f, n, style):
                 tspan.attrib["fill"] = tspan.attrib["fill"].upper()
 
             ## Oddities in Physics B
-            if tspan.attrib["fill"] == "#000000" and tspan.attrib["font-size"] in ["21.000", "24.000", "18.000"]:
-                if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]
-                tspan.attrib["font-size"] = "28.000"
+            ##if tspan.attrib["fill"] == "#000000" and tspan.attrib["font-size"] in ["21.000", "24.000", "18.000"]:
+            ##    if "font-weight" in tspan.attrib:
+            ##        del tspan.attrib["font-weight"]
+            ##    tspan.attrib["font-size"] = "28.000"
 
-            if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] in ["38.000"] and "font-weight" in tspan.attrib:
-                tspan.attrib["font-size"] = "48.000"
-            if tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Comic Sans MS"]:
-                tspan.attrib["font-family"] = "Arial"
+            ##if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] in ["38.000"] and "font-weight" in tspan.attrib:
+            ##    tspan.attrib["font-size"] = "48.000"
+            ##if tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Comic Sans MS"]:
+            ##    tspan.attrib["font-family"] = "Arial"
             ##
             
 
             if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
                 tspan.attrib["font-size"] = "28.000"
 
-            if tspan.attrib["font-size"] in ["15.000", "17.000", "20.000", "21.000"] and tspan.attrib["fill"] == "#00005E":
-                tspan.attrib["font-size"] = "24.000"
-
-            if "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Times New Roman":
-                tspan.attrib["font-family"] = "Arial"
-                
-            if tspan.attrib["font-size"] in ["26.000", "36.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
-                tspan.attrib["font-size"] = "28.000"
-
-            if hasMultipleChoice and tspan.attrib["font-size"] in ["24.000", "26.000", "36.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
-                tspan.attrib["font-size"] = "28.000"            
-
-            if tspan.attrib["font-size"] in ["20.000", "28.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000":
-                if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]
-
-            if tspan.attrib["font-size"] == "36.000" and tspan.attrib["font-family"] == "Arial":
-                tspan.attrib["font-weight"] = "bold"
-
-            if style == "1st":
-                #Title of Slides
-                if tspan.attrib["fill"] == "#000000":
-                        tspan.attrib["font-size"] = "36.000" and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-weight"] = "bold"
-                #Body of slides
-                else:
-                    if tspan.attrib["font-family"] == "Arial":
-                        tspan.attrib["font-size"] = "28.000" and tspan.attrib["fill"] == "#00005E"
-                
-            if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000":
+            if tspan.attrib["font-size"] == ["18.000", "20.000", "24.000"] and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-size"] = "24.000" and tspan.attrib["fill"] == "#00005E"
+
+            if tspan.attrib["font-size"] == ["18.000", "24.00", "28.00"] and tspan.attrib["font-family"] == "Courier New":
+                tspan.attrib["font-size"] == "20.000" and tspan.attrib["fill"] == "#00005E"
                 
-                if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]
+            if tspan.attrib["font-size"] == ["28.000", "36.000"] and tspan.attrib["font-family"] == "Arial":
+                tspan.attrib["font-size"] == "36.000" and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-weight"] = "bold"
+
+            if hasMultipleChoice and tspan.attrib["font-size"] == ["24.000", "26.000", "36.000"] and tspan.attrib["font-family"] == "Arial":
+                tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000"            
+
+            
+            ##if tspan.attrib["font-size"] in ["20.000", "28.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000":
+            ##    if "font-weight" in tspan.attrib:
+            ##        del tspan.attrib["font-weight"]
+
+            ##if tspan.attrib["font-size"] == "36.000" and tspan.attrib["font-family"] == "Arial":
+            ##    tspan.attrib["font-weight"] = "bold"
+
+                           
+            ##if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000":
+            ##   tspan.attrib["font-size"] = "24.000" and tspan.attrib["fill"] == "#00005E"
+                
+            ##    if "font-weight" in tspan.attrib:
+            ##        del tspan.attrib["font-weight"]
 
             if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
                 if "font-weight" in tspan.attrib:
@@ -226,7 +219,7 @@ def ShouldIgnore(tspan, pullTabIds, parentMap):
                     return True
             except:
                 pass
-    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol"]:
+    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol", "Courier New"]:
         if len(tspan.text.strip()) == 1:
             return True
         if len(tspan.text.strip()) == 2 and tspan.text.strip() == "**":
