@@ -27,7 +27,7 @@ AllowedTSpans = [
     ["#00005E", "Arial", "24.000"],
     ["#00005E", "Arial", "28.000"], # 1st
     ["#00005E", "Arial", "36.000", "bold"],
-    ["#00005E", "Arial", "48.000", "bold"],
+    ["#00005E", "Arial", "28.000", "bold"],
     # SR
     ["#000000", "Arial", "36.000"], # 1st
     ["#000000", "Arial", "28.000"],
@@ -37,11 +37,20 @@ AllowedTSpans = [
     ["#000000", "Arial", "10.000"],
     ["#000000", "Arial", "8.000"],
     # Coding
+    ["#D6D6D6", "Courier New", "18.000"],
+    ["#D6D6D6", "Courier New", "20.000"],
+    ["#D6D6D6", "Courier New", "24.000"],
+    ["#D6D6D6", "Courier New", "28.000"],
+    ["#D6D6D6", "Courier New", "18.000", "bold"],
+    ["#D6D6D6", "Courier New", "20.000", "bold"],
+    ["#D6D6D6", "Courier New", "24.000", "bold"],
+    ["#D6D6D6", "Courier New", "28.000"],
     ["#000000", "Courier New", "20.000"],
     ["#000000", "Courier New", "24.000"],
     ["#000000", "Courier New", "28.000"],
     ["#000000", "Courier New", "18.000"],
     ["#000000", "Courier New", "28.000", "bold"],
+    ["#000000", "Courier New", "24.000", "bold"],
     ["#000000", "Courier New", "18.000", "bold"],
     ["#00005E", "Courier New", "18.000"],
     ["#00005E", "Courier New", "20.000"],
