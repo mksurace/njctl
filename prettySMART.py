@@ -131,15 +131,15 @@ def NormalizeFont(f, n, style):
             ##    if "font-weight" in tspan.attrib:
             ##        del tspan.attrib["font-weight"]
 
-            ##if tspan.attrib["font-size"] == "36.000" and tspan.attrib["font-family"] == "Arial":
-            ##    tspan.attrib["font-weight"] = "bold"
+            if tspan.attrib["font-size"] == "36.000" and tspan.attrib["font-family"] == "Arial":
+                tspan.attrib["font-weight"] = "bold"
 
                            
-            ##if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000":
-            ##   tspan.attrib["font-size"] = "24.000" and tspan.attrib["fill"] == "#00005E"
+            if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000":
+               tspan.attrib["font-size"] = "24.000" and tspan.attrib["fill"] == "#00005E"
                 
-            ##    if "font-weight" in tspan.attrib:
-            ##        del tspan.attrib["font-weight"]
+                if "font-weight" in tspan.attrib:
+                    del tspan.attrib["font-weight"]
 
             ##if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
             ##    if "font-weight" in tspan.attrib:
@@ -225,7 +225,7 @@ def ShouldIgnore(tspan, pullTabIds, parentMap):
                     return True
             except:
                 pass
-    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol", "Courier New"]:
+    if tspan.text and "font-family" in tspan.attrib and tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Arial Unicode MS", "Symbol", "Courier New", "Arial"]:
         if len(tspan.text.strip()) == 1:
             return True
         if len(tspan.text.strip()) == 2 and tspan.text.strip() == "**":
