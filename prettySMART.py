@@ -141,9 +141,9 @@ def NormalizeFont(f, n, style):
             ##    if "font-weight" in tspan.attrib:
             ##        del tspan.attrib["font-weight"]
 
-            if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
-                if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]
+            ##if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
+            ##    if "font-weight" in tspan.attrib:
+            ##        del tspan.attrib["font-weight"]
 
             if style == "1st":
                 #FA 36 #000 unbold
