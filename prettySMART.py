@@ -51,6 +51,7 @@ AllowedTSpans = [
 Mappings = [
     ["Times New Roman", "Arial", "Courier New"],
     ["#000000", "#00005E"],
+    ["#595959", "#00005E"],
     ["#0000FF", "#00005E"],
     ["#0000ff", "#00005E"],
     ["#00008B", "#00005E"],
@@ -110,18 +111,17 @@ def NormalizeFont(f, n, style):
             ##    tspan.attrib["font-family"] = "Arial"
             ##
             
-
-            if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
-                tspan.attrib["font-size"] = "28.000"
+            if tspan.attrib["font-size"] == ["28.000", "36.000"] and tspan.attrib["font-family"] == "Arial":
+                tspan.attrib["font-size"] == "36.000" and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-weight"] = "bold"
+                
+            ##if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
+            ##    tspan.attrib["font-size"] = "28.000"
 
             if tspan.attrib["font-size"] == ["18.000", "20.000", "24.000"] and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-size"] = "24.000" and tspan.attrib["fill"] == "#00005E"
 
             if tspan.attrib["font-size"] == ["18.000", "24.00", "28.00"] and tspan.attrib["font-family"] == "Courier New":
-                tspan.attrib["font-size"] == "20.000" and tspan.attrib["fill"] == "#00005E"
-                
-            if tspan.attrib["font-size"] == ["28.000", "36.000"] and tspan.attrib["font-family"] == "Arial":
-                tspan.attrib["font-size"] == "36.000" and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-weight"] = "bold"
+                tspan.attrib["font-size"] == "20.000" and tspan.attrib["fill"] == "#00005E"            
 
             if hasMultipleChoice and tspan.attrib["font-size"] == ["24.000", "26.000", "36.000"] and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000"            
