@@ -128,7 +128,7 @@ def NormalizeFont(f, n, style):
             ##
             
             if tspan.attrib["font-size"] == ["28.000", "36.000"] and tspan.attrib["font-family"] == "Arial":
-                tspan.attrib["font-size"] = "36.000" and tspan.attrib["fill"] = "#00005E" and tspan.attrib["font-weight"] in "bold"
+                tspan.attrib["font-size"] = "36.000" and tspan.attrib["fill"] = "#00005E" and tspan.attrib["font-weight"] = "bold"
                 
             ##if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
             ##    tspan.attrib["font-size"] = "28.000"
