@@ -46,6 +46,13 @@ AllowedTSpans = [
     ["#000000", "Arial", "8.000"],
     # Coding
     ["#00005D", "Courier New", "24.000"],
+    ["#00005D", "Courier New", "28.000"],
+    ["#00005D", "Courier New", "20.000"],
+    ["#00005D", "Courier New", "18.000"],
+    ["#00005D", "Courier New", "24.000", "bold"],
+    ["#00005D", "Courier New", "28.000", "bold"],
+    ["#00005D", "Courier New", "20.000", "bold"],
+    ["#00005D", "Courier New", "18.000", "bold"],    
     ["#595959", "Courier New", "18.000"],
     ["#595959", "Courier New", "20.000"],
     ["#595959", "Courier New", "24.000"],
@@ -53,12 +60,13 @@ AllowedTSpans = [
     ["#595959", "Courier New", "18.000", "bold"],
     ["#595959", "Courier New", "20.000", "bold"],
     ["#595959", "Courier New", "24.000", "bold"],
-    ["#595959", "Courier New", "28.000"],
+    ["#595959", "Courier New", "28.000", "bold"],
     ["#000000", "Courier New", "20.000"],
     ["#000000", "Courier New", "24.000"],
     ["#000000", "Courier New", "28.000"],
     ["#000000", "Courier New", "18.000"],
     ["#000000", "Courier New", "28.000", "bold"],
+    ["#000000", "Courier New", "20.000", "bold"],
     ["#000000", "Courier New", "24.000", "bold"],
     ["#000000", "Courier New", "18.000", "bold"],
     ["#00005E", "Courier New", "18.000"],
@@ -178,15 +186,15 @@ def NormalizeFont(f, n, style):
             ##    if "font-weight" in tspan.attrib:
             ##        del tspan.attrib["font-weight"]
 
-            if tspan.attrib["font-size"] in "36.000" and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
+            if tspan.attrib["font-size"] in ["36.000"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
                 tspan.attrib["font-weight"] = "bold"
 
                            
             ##if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000":
             ##   tspan.attrib["font-size"] = "24.000" and tspan.attrib["fill"] == "#00005E"
                 
-                if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]
+              ##  if "font-weight" in tspan.attrib:
+              ##      del tspan.attrib["font-weight"]
 
             ##if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":  
             ##    if "font-weight" in tspan.attrib:
