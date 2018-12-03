@@ -173,7 +173,7 @@ def NormalizeFont(f, n, style):
                 tspan.attrib["font-size"] = "24.000"
                 tspan.attrib["fill"] == "#00005E"
 
-            if tspan.attrib["font-size"] in ["28.00", "18.000", "24.00", "20.00"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Courier New":
+            if "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Courier New":
                 tspan.attrib["font-size"] = "20.000" 
                 tspan.attrib["fill"] == "#00005E"
                             
