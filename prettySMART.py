@@ -97,6 +97,7 @@ AllowedTSpans = [
     ]
 Mappings = [
     ["Times New Roman", "Arial", "Courier New", "Cambria Math"],
+    ["#000000", "#00005E"],
     ["#00005D", "#00005E"],
     ["#595959", "#00005E"],
     ["#0000FF", "#00005E"],
