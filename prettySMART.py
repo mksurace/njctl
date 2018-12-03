@@ -160,11 +160,11 @@ def NormalizeFont(f, n, style):
             ##if tspan.attrib["font-family"] in ["Lucida Sans Unicode", "Comic Sans MS"]:
             ##    tspan.attrib["font-family"] = "Arial"
             ##
-            if style == "1st":
-                if tspan.attrib["font-size"] in ["28.000", "36.000"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
-                    tspan.attrib["font-size"] = "36.000" 
-                    tspan.attrib["fill"] = "#00005E" 
-                    tspan.attrib["font-weight"] = "bold"
+           
+            if tspan.attrib["font-size"] in ["28.000", "36.000"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
+               tspan.attrib["font-size"] = "36.000" 
+               tspan.attrib["fill"] = "#00005E" 
+               tspan.attrib["font-weight"] = "bold"
                           
             ##if IsQuestion(tspan, parentMap) and tspan.attrib["fill"] == "#000000":
             ##    tspan.attrib["font-size"] = "28.000"
@@ -173,23 +173,22 @@ def NormalizeFont(f, n, style):
                 tspan.attrib["font-size"] = "24.000"
                 tspan.attrib["fill"] == "#00005E"
 
-            if tspan.attrib["font-size"] in ["28.00", "18.000", "24.00", "28.00"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Courier New":
-                if "font-weight" in tspan.attrib:
-                    del tspan.attrib["font-weight"]
+            if tspan.attrib["font-size"] in ["28.00", "18.000", "24.00", "20.00"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Courier New":
                 tspan.attrib["font-size"] = "20.000" 
-                tspan.attrib["fill"] == "#00005E"            
+                tspan.attrib["fill"] == "#00005E"
+                            
 
             ##if hasMultipleChoice and tspan.attrib["font-size"] in ["24.000", "26.000"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
              ##   tspan.attrib["font-size"] = "28.000" 
              ##   tspan.attrib["fill"] == "#000000"            
 
             
-            ##if tspan.attrib["font-size"] in ["20.000", "28.000"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#000000":
-            ##    if "font-weight" in tspan.attrib:
-            ##        del tspan.attrib["font-weight"]
+            if tspan.attrib["font-size"] in ["20.000", "24.000", "28.00"] and "fill" in tspan.attrib and tspan.attrib["fill"] == "#00005E":
+                if "font-weight" in tspan.attrib:
+                    del tspan.attrib["font-weight"]
 
-            if tspan.attrib["font-size"] in ["36.000"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
-                tspan.attrib["font-weight"] = "bold"
+            ##if tspan.attrib["font-size"] in ["36.000"] and "font-family" in tspan.attrib and tspan.attrib["font-family"] == "Arial":
+            ##    tspan.attrib["font-weight"] = "bold"
 
                            
             ##if tspan.attrib["font-size"] == "28.000" and tspan.attrib["fill"] == "#000000":
