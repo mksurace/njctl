@@ -198,20 +198,20 @@ def NormalizeFont(f, n, style):
             ##    if "font-weight" in tspan.attrib:
             ##        del tspan.attrib["font-weight"]
 
-            if style == "1st":
+            ##if style == "1st":
                 #FA 36 #000 unbold
-                if hasMultipleChoice:
-                    if tspan.attrib["fill"] == "#000000" and tspan.attrib["font-size"] == "28.000":
-                        tspan.attrib["font-size"] = "36.000"
+               ## if hasMultipleChoice:
+                 ##   if tspan.attrib["fill"] == "#000000" and tspan.attrib["font-size"] == "28.000":
+                 ##       tspan.attrib["font-size"] = "36.000"
                 #DI 28 blue unbold
-                else:
-                    if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":
-                        tspan.attrib["font-size"] = "28.000"
+               ## else:
+                ##    if tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":
+                ##        tspan.attrib["font-size"] = "28.000"
 
-            elif style == "2nd":
+           ## elif style == "2nd":
                 #DI 28 blue unbold
-                if not hasMultipleChoice and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":
-                    tspan.attrib["font-size"] = "28.000"
+             ##   if not hasMultipleChoice and tspan.attrib["fill"] == "#00005E" and tspan.attrib["font-size"] == "24.000":
+              ##      tspan.attrib["font-size"] = "28.000"
 
     t.write(f)
 
