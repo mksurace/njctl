@@ -130,8 +130,8 @@ def NormalizeFont(f, n, style):
         if "font-size" in tspan.attrib:
             size = float(tspan.attrib["font-size"])
         
-           ## if abs(size - 24) <= 2:
-           ##     tspan.attrib["font-size"] = "24.000"
+            if size < 18:
+                tspan.attrib["font-size"] = "24.000"
            ## elif abs(size - 28) <= 2:
            ##     tspan.attrib["font-size"] = "28.000"
            ## elif abs(size - 36) <= 2:
